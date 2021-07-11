@@ -3,6 +3,8 @@ using Catalog.Repositories;
 using System.Collections.Generic;
 using Catalog.Entities;
 using System;
+using System.Linq;
+using Catalog.Dtos;
 
 namespace Catalog.Controllers
 {
@@ -22,7 +24,12 @@ namespace Catalog.Controllers
         [HttpGet]
         public IEnumerable<Item> GetItems()
         {
-            var items = repository.GetItems();
+            var items = repository.GetItems().Select(item => new ItemDto{
+                Id = item.Id,
+                Name = item.Name,
+                Price = item.Price,
+                CreatedDate = item.CreatedDate
+            });
             return items;
         }
 
